@@ -1,5 +1,6 @@
 package baseball.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,14 @@ public class Balls {
         duplicationValidation(balls);
         ballsSizeValidation(balls);
         this.balls = balls;
+    }
+
+    public static Balls of(final List<Integer> ballNumbers) {
+        List<Ball> ballList = new ArrayList<>();
+        for (int i = 0; i < ballNumbers.size(); i++) {
+            ballList.add(new Ball(i, ballNumbers.get(i)));
+        }
+        return new Balls(ballList);
     }
 
     private void duplicationValidation(final List<Ball> balls) {

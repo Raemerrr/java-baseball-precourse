@@ -39,4 +39,22 @@ public class BallsTest {
     void 세자리_수_검증_실패_2() {
         assertThrows(IllegalArgumentException.class, () -> new Balls(Arrays.asList(new Ball(0, 1), new Ball(1, 1), new Ball(2, 3), new Ball(3, 4))));
     }
+
+    @Test
+    @DisplayName("세자리 수 리스트 입력 - 성공")
+    void 세자리_수_리스트_입력_성공() {
+        assertDoesNotThrow(() -> Balls.of(Arrays.asList(1, 2, 3)));
+    }
+
+    @Test
+    @DisplayName("세자리 수 리스트 입력 - 실패(중복 숫자)")
+    void 세자리_수_리스트_입력_실패_중복_숫자() {
+        assertThrows(IllegalArgumentException.class, () -> Balls.of(Arrays.asList(1, 3, 3)));
+    }
+
+    @Test
+    @DisplayName("두자리 수 리스트 입력 - 실패")
+    void 두자리_수_리스트_입력_실패() {
+        assertThrows(IllegalArgumentException.class, () -> Balls.of(Arrays.asList(1, 3)));
+    }
 }
