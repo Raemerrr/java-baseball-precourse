@@ -1,13 +1,13 @@
 package baseball.domain;
 
-public enum PlayResult {
+public enum BallStatus {
     STRIKE("스트라이크"),
     BALL("볼"),
     NOTHING("낫싱");
 
     private final String description;
 
-    PlayResult(final String description) {
+    BallStatus(final String description) {
         this.description = description;
     }
 

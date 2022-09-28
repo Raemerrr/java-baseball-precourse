@@ -12,8 +12,8 @@ public class BallTest {
     void 스트라이크() {
         Ball ball = new Ball(1, 3);
         Ball other = new Ball(1, 3);
-        PlayResult playResult = ball.play(other);
-        assertThat(playResult).isEqualTo(PlayResult.STRIKE);
+        BallStatus ballStatus = ball.play(other);
+        assertThat(ballStatus).isEqualTo(BallStatus.STRIKE);
     }
 
     @Test
@@ -21,8 +21,8 @@ public class BallTest {
     void 볼() {
         Ball ball = new Ball(1, 3);
         Ball other = new Ball(0, 3);
-        PlayResult playResult = ball.play(other);
-        assertThat(playResult).isEqualTo(PlayResult.BALL);
+        BallStatus ballStatus = ball.play(other);
+        assertThat(ballStatus).isEqualTo(BallStatus.BALL);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class BallTest {
     void 낫싱() {
         Ball ball = new Ball(1, 3);
         Ball other = new Ball(0, 2);
-        PlayResult playResult = ball.play(other);
-        assertThat(playResult).isEqualTo(PlayResult.NOTHING);
+        BallStatus ballStatus = ball.play(other);
+        assertThat(ballStatus).isEqualTo(BallStatus.NOTHING);
     }
 }

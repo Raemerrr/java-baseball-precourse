@@ -15,14 +15,14 @@ public class Ball {
         return number;
     }
 
-    public PlayResult play(final Ball other) {
+    public BallStatus play(final Ball other) {
         if (isStrike(other)) {
-            return PlayResult.STRIKE;
+            return BallStatus.STRIKE;
         }
         if (isBall(other)) {
-            return PlayResult.BALL;
+            return BallStatus.BALL;
         }
-        return PlayResult.NOTHING;
+        return BallStatus.NOTHING;
     }
 
     private boolean isStrike(final Ball other) {
