@@ -26,7 +26,7 @@ public class Ball {
     }
 
     private boolean isStrike(final Ball other) {
-        return this.number == other.number && this.pos == other.pos;
+        return this.equals(other);
     }
 
     private boolean isBall(final Ball other) {
