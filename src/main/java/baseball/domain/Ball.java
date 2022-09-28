@@ -11,6 +11,10 @@ public class Ball {
         this.number = number;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
     public PlayResult play(final Ball other) {
         if (isStrike(other)) {
             return PlayResult.STRIKE;
