@@ -1,14 +1,23 @@
 package baseball.domain;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BallsTest {
+
+    private Balls computer;
+
+    @BeforeEach
+    void init() {
+        computer = Balls.of(Arrays.asList(1, 2, 3));
+    }
 
     @Test
     @DisplayName("3자리 수 서로 다른 수 검증 - 성공")
@@ -56,5 +65,53 @@ public class BallsTest {
     @DisplayName("두자리 수 리스트 입력 - 실패")
     void 두자리_수_리스트_입력_실패() {
         assertThrows(IllegalArgumentException.class, () -> Balls.of(Arrays.asList(1, 3)));
+    }
+
+    @Test
+    @DisplayName("3 스트라이크")
+    void three_strike() {
+        Balls user = Balls.of(Arrays.asList(1, 2, 3));
+        PlayResult playResult = computer.inning(user);
+        assertThat(playResult.getStrike()).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("2 스트라이크")
+    void two_strike() {
+        Balls user = Balls.of(Arrays.asList(4, 2, 3));
+        PlayResult playResult = computer.inning(user);
+        assertThat(playResult.getStrike()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("1 스트라이크")
+    void one_strike() {
+        Balls user = Balls.of(Arrays.asList(4, 5, 3));
+        PlayResult playResult = computer.inning(user);
+        assertThat(playResult.getStrike()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("3 볼")
+    void three_ball() {
+        Balls user = Balls.of(Arrays.asList(3, 1, 2));
+        PlayResult playResult = computer.inning(user);
+        assertThat(playResult.getBall()).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("2 볼")
+    void two_ball() {
+        Balls user = Balls.of(Arrays.asList(3, 1, 5));
+        PlayResult playResult = computer.inning(user);
+        assertThat(playResult.getBall()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("1 볼")
+    void one_ball() {
+        Balls user = Balls.of(Arrays.asList(4, 3, 5));
+        PlayResult playResult = computer.inning(user);
+        assertThat(playResult.getBall()).isEqualTo(1);
     }
 }

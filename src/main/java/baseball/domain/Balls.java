@@ -23,6 +23,32 @@ public class Balls {
         return new Balls(ballList);
     }
 
+    public PlayResult inning(final Balls user) {
+        PlayResult playResult = new PlayResult();
+        for (final Ball ball : this.balls) {
+            playResult.report(user.play(ball));
+        }
+        return playResult;
+    }
+
+    public BallStatus play(final Ball otherBall) {
+        Set<BallStatus> statusSet = new HashSet<>();
+        for (final Ball ball : this.balls) {
+            statusSet.add(ball.play(otherBall));
+        }
+        return findFirstNonNothingStatus(statusSet);
+    }
+
+    private BallStatus findFirstNonNothingStatus(final Set<BallStatus> statusSet) {
+        if (statusSet.contains(BallStatus.STRIKE)) {
+            return BallStatus.STRIKE;
+        }
+        if (statusSet.contains(BallStatus.BALL)) {
+            return BallStatus.BALL;
+        }
+        return BallStatus.NOTHING;
+    }
+
     private void duplicationValidation(final List<Ball> balls) {
         Set<Integer> set = new HashSet<>();
         for (final Ball ball : balls) {
