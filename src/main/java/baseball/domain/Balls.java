@@ -1,12 +1,13 @@
 package baseball.domain;
 
+import baseball.etc.GameManager;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class Balls {
-    private static final int BALLS_SIZE = 3;
     private final List<Ball> balls;
 
     public Balls(final List<Ball> balls) {
@@ -54,13 +55,13 @@ public class Balls {
         for (final Ball ball : balls) {
             set.add(ball.getNumber());
         }
-        if (set.size() != BALLS_SIZE) {
+        if (set.size() != GameManager.BALLS_SIZE) {
             throw new IllegalArgumentException("옳바른 입력이 아닙니다.");
         }
     }
 
     private void ballsSizeValidation(final List<Ball> balls) {
-        if (balls.size() != BALLS_SIZE) {
+        if (balls.size() != GameManager.BALLS_SIZE) {
             throw new IllegalArgumentException("옳바른 입력이 아닙니다.");
         }
     }
