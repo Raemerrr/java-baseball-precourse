@@ -3,8 +3,13 @@ package baseball.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -67,51 +72,36 @@ public class BallsTest {
         assertThrows(IllegalArgumentException.class, () -> Balls.of(Arrays.asList(1, 3)));
     }
 
-    @Test
-    @DisplayName("3 스트라이크")
-    void three_strike() {
-        Balls user = Balls.of(Arrays.asList(1, 2, 3));
-        PlayResult playResult = computer.inning(user);
-        assertThat(playResult.getStrike()).isEqualTo(3);
+    @ParameterizedTest
+    @DisplayName("스트라이크/볼 판정 로직")
+    @MethodSource("provideBallNumbers")
+    void play(List<Integer> input, List<Integer> expected) {
+        PlayResult playResult = computer.inning(Balls.of(input));
+        assertThat(playResult.getStrike()).isEqualTo(expected.get(0));
+        assertThat(playResult.getBall()).isEqualTo(expected.get(1));
     }
 
-    @Test
-    @DisplayName("2 스트라이크")
-    void two_strike() {
-        Balls user = Balls.of(Arrays.asList(4, 2, 3));
-        PlayResult playResult = computer.inning(user);
-        assertThat(playResult.getStrike()).isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("1 스트라이크")
-    void one_strike() {
-        Balls user = Balls.of(Arrays.asList(4, 5, 3));
-        PlayResult playResult = computer.inning(user);
-        assertThat(playResult.getStrike()).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("3 볼")
-    void three_ball() {
-        Balls user = Balls.of(Arrays.asList(3, 1, 2));
-        PlayResult playResult = computer.inning(user);
-        assertThat(playResult.getBall()).isEqualTo(3);
-    }
-
-    @Test
-    @DisplayName("2 볼")
-    void two_ball() {
-        Balls user = Balls.of(Arrays.asList(3, 1, 5));
-        PlayResult playResult = computer.inning(user);
-        assertThat(playResult.getBall()).isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("1 볼")
-    void one_ball() {
-        Balls user = Balls.of(Arrays.asList(4, 3, 5));
-        PlayResult playResult = computer.inning(user);
-        assertThat(playResult.getBall()).isEqualTo(1);
+    private static Stream<Arguments> provideBallNumbers() {
+        // computer : 1 2 3
+        return Stream.of(
+                // 3 스트라이크
+                Arguments.of(Arrays.asList(1, 2, 3), Arrays.asList(3, 0)),
+                // 2 스트라이크
+                Arguments.of(Arrays.asList(4, 2, 3), Arrays.asList(2, 0)),
+                // 1 스트라이크
+                Arguments.of(Arrays.asList(4, 5, 3), Arrays.asList(1, 0)),
+                // 3 볼
+                Arguments.of(Arrays.asList(2, 3, 1), Arrays.asList(0, 3)),
+                // 2 볼
+                Arguments.of(Arrays.asList(4, 3, 1), Arrays.asList(0, 2)),
+                // 1 볼
+                Arguments.of(Arrays.asList(4, 3, 5), Arrays.asList(0, 1)),
+                // 1 스트라이크 2 볼
+                Arguments.of(Arrays.asList(1, 3, 2), Arrays.asList(1, 2)),
+                // 1 스트라이크 1 볼
+                Arguments.of(Arrays.asList(1, 3, 4), Arrays.asList(1, 1)),
+                // 낫싱
+                Arguments.of(Arrays.asList(4, 5, 6), Arrays.asList(0, 0))
+        );
     }
 }
